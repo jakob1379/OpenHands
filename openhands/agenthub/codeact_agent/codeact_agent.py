@@ -16,15 +16,15 @@ from openhands.agenthub.codeact_agent.tools.condensation_request import (
     CondensationRequestTool,
 )
 from openhands.agenthub.codeact_agent.tools.finish import FinishTool
+from openhands.agenthub.codeact_agent.tools.gemini import (
+    create_gemini_read_file_tool,
+    create_gemini_replace_tool,
+    create_gemini_write_file_tool,
+)
 from openhands.agenthub.codeact_agent.tools.ipython import IPythonTool
 from openhands.agenthub.codeact_agent.tools.llm_based_edit import LLMBasedFileEditTool
 from openhands.agenthub.codeact_agent.tools.str_replace_editor import (
     create_str_replace_editor_tool,
-)
-from openhands.agenthub.codeact_agent.tools.gemini import (
-    create_gemini_read_file_tool,
-    create_gemini_write_file_tool,
-    create_gemini_replace_tool,
 )
 from openhands.agenthub.codeact_agent.tools.think import ThinkTool
 from openhands.controller.agent import Agent
