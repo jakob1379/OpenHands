@@ -36,6 +36,7 @@ from openhands.events.action import (
     FileWriteAction,
     IPythonRunCellAction,
     MessageAction,
+    TaskTrackingAction,
 )
 from openhands.events.action.agent import CondensationRequestAction
 from openhands.events.action.mcp import MCPAction
@@ -45,6 +46,7 @@ from openhands.llm.tool_names import (
     GEMINI_READ_FILE_TOOL_NAME,
     GEMINI_REPLACE_TOOL_NAME,
     GEMINI_WRITE_FILE_TOOL_NAME,
+    TASK_TRACKER_TOOL_NAME,
 )
 
 
@@ -283,6 +285,24 @@ def response_to_actions(
                         f'Missing required argument "code" in tool call {tool_call.function.name}'
                     )
                 action = BrowseInteractiveAction(browser_actions=arguments['code'])
+
+            # ================================================
+            # TaskTrackingAction
+            # ================================================
+            elif tool_call.function.name == TASK_TRACKER_TOOL_NAME:
+                if 'command' not in arguments:
+                    raise FunctionCallValidationError(
+                        f'Missing required argument "command" in tool call {tool_call.function.name}'
+                    )
+                if arguments['command'] == 'plan' and 'task_list' not in arguments:
+                    raise FunctionCallValidationError(
+                        f'Missing required argument "task_list" for "plan" command in tool call {tool_call.function.name}'
+                    )
+
+                action = TaskTrackingAction(
+                    command=arguments['command'],
+                    task_list=arguments.get('task_list', []),
+                )
 
             # ================================================
             # MCPAction (MCP)
