@@ -55,8 +55,13 @@ jobs:
           comment: |
             Hi! I started running the integration tests on your PR. You will receive a comment with the results shortly.
 
-      - name: Install Python dependencies using Poetry
-        run: uvx poetry install --with dev,test,runtime,evaluation
+      - name: Install Python dependencies (uv sync preferred)
+        run: |
+          if [ -f uv.lock ]; then
+            uv sync --group test --group runtime --group evaluation --dev
+          else
+            uvx poetry install --with dev,test,runtime,evaluation
+          fi
 
       - name: Configure config.toml for testing with Haiku
         env:
