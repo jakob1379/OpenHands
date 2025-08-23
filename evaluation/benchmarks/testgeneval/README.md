@@ -8,7 +8,7 @@ This folder contains the evaluation harness for the TestGenEval benchmark, which
 
 2. Install the TestGenEval dependencies:
 ```bash
-poetry install --with testgeneval
+uvx poetry install --with testgeneval
 ```
 
 ## Run Inference

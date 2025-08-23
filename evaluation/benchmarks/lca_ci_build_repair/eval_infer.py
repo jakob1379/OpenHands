@@ -121,7 +121,7 @@ def run_eval(
     logger.info(action, extra={'msg_type': 'ACTION'})
     obs = runtime.run_action(action)
 
-    action = CmdRunAction(command='poetry install')
+    action = CmdRunAction(command='uvx poetry install')
     logger.info(action, extra={'msg_type': 'ACTION'})
     obs = runtime.run_action(action)
 
