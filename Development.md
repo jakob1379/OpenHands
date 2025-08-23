@@ -15,6 +15,8 @@ you can clone the OpenHands project directly.
 - [Python](https://www.python.org/downloads/) = 3.12
 - [NodeJS](https://nodejs.org/en/download/package-manager) >= 22.x
 - [Poetry](https://python-poetry.org/docs/#installing-with-the-official-installer) >= 1.8
+- [uv](https://docs.astral.sh/uv/getting-started/installation/) (preferred during migration)
+
 - OS-specific dependencies:
   - Ubuntu: build-essential => `sudo apt-get install build-essential python3.12-dev`
   - WSL: netcat => `sudo apt-get install netcat`
@@ -142,6 +144,12 @@ make help
 ### 8. Testing
 
 To run tests, refer to the following:
+
+
+Recommended during migration:
+- If uv.lock is present, prefer: `uv sync --all-extras --dev`
+- Running tests: `uv run pytest -n auto -svv tests/unit` (or use `uvx poetry run ...` until Poetry is removed)
+- Pre-commit: `uvx pre-commit run --config ./dev_config/python/.pre-commit-config.yaml`
 
 #### Unit tests
 
