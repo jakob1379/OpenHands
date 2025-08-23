@@ -4,6 +4,103 @@ requires = [
   "poetry-core",
 ]
 
+[project]
+name = "openhands-ai"
+version = "0.54.0"
+description = "OpenHands: Code Less, Make More"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [ { name = "OpenHands" } ]
+
+requires-python = ">=3.12,<3.14"
+classifiers = [
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
+# Core dependencies (mirrored from [tool.poetry.dependencies], excluding python)
+dependencies = [
+  "aiohttp>=3.9,!=3.11.13",
+  "anthropic[vertex]",
+  "anyio==4.9",
+  "bashlex>=0.18",
+  "boto3",
+  "browsergym-core==0.13.3",
+  "deprecated",
+  "dirhash",
+  "docker",
+  "fastapi",
+  "fastmcp>=2.5.2",
+  "google-api-python-client>=2.164",
+  "google-auth-httplib2",
+  "google-auth-oauthlib",
+  "google-cloud-aiplatform",
+  "google-generativeai",
+  "html2text",
+  "httpx-aiohttp>=0.1.8",
+  # UI integrations (runtime-ish)
+  "ipywidgets>=8.1.5",
+  "jinja2>=3.1.3",
+  "joblib",
+  "json-repair",
+  "jupyter-kernel-gateway",
+  "kubernetes>=33.1",
+  "libtmux>=0.37,<0.40",
+  "litellm!=1.64.4,!=1.67.*,>=1.74.3",
+  "markdown",
+  "memory-profiler>=0.61",
+  "numpy",
+  "openai==1.99.9",
+  "openhands-aci==0.3.2",
+  "opentelemetry-api>=1.33.1",
+  "opentelemetry-exporter-otlp-proto-grpc>=1.33.1",
+  "pathspec>=0.12.1",
+  "pexpect",
+  # Poetry included so commands can be invoked via `uv run poetry run ...`
+  "poetry>=2.1.2",
+  "prompt-toolkit>=3.0.50",
+  "protobuf>=5,<6",
+  "psutil",
+  "pygithub>=2.5",
+  "pyjwt>=2.9",
+  "pylatexenc",
+  "pypdf2",
+  "python-docx",
+  "python-dotenv",
+  "python-frontmatter>=1.1",
+  "python-json-logger>=3.2.1",
+  "python-multipart",
+  "python-pptx",
+  "python-socketio>=5.11.4",
+  "pythonnet",
+  "pyyaml>=6.0.2",
+  "qtconsole>=5.6.1",
+  "rapidfuzz>=3.9",
+  # Optional integrations kept enabled by default here
+  "redis>=5.2,<7",
+  "shellingham>=1.5.4",
+  "sse-starlette>=2.1.3",
+  "tenacity>=8.5,<10",
+  "termcolor",
+  "toml",
+  "tornado",
+  "types-toml",
+  "uvicorn",
+  "whatthepatch>=1.0.6",
+  "zope-interface==7.2",
+]
+
+# Mirrors [tool.poetry.extras]
+optional-dependencies.third_party_runtimes = [
+  "daytona==0.24.2",
+  "e2b>=1.0.5,<1.8",
+  "modal>=0.66.26,<1.2",
+  "runloop-api-client==0.50",
+]
+# uv configuration: dev-dependencies and additional dependency groups
+urls.repository = "https://github.com/All-Hands-AI/OpenHands"
+scripts.openhands = "openhands.cli.entry:main"
+
 [tool.poetry]
 name = "openhands-ai"
 version = "0.54.0"
@@ -198,3 +295,74 @@ lint.pydocstyle.convention = "google"
 
 [tool.coverage.run]
 concurrency = [ "gevent" ]
+
+[tool.uv]
+# Dev-only tools
+dev-dependencies = [
+  "ruff==0.12.5",
+  "mypy==1.17.0",
+  "pre-commit==4.2.0",
+  "build",
+  "types-setuptools",
+  "types-markdown>=3.8.0.20250809",
+]
+
+[tool.uv.dependency-groups]
+# Test group
+test = [
+  "pytest",
+  "pytest-cov",
+  "pytest-asyncio",
+  "pytest-forked",
+  "pytest-xdist",
+  "pytest-playwright>=0.7.0",
+  "pytest-timeout>=2.4.0",
+  "pandas",
+  "reportlab",
+  "gevent>=24.2.1,<26.0.0",
+]
+
+# Runtime group (dev notebooks, lint)
+runtime = [
+  "jupyterlab",
+  "notebook",
+  "flake8",
+]
+
+# Evaluation group
+
+# Pin pyarrow to avoid conflicts, and include evaluation libs
+
+evaluation = [
+  "streamlit",
+  "whatthepatch",
+  "retry",
+  "evaluate",
+  "visualswebench @ git+https://github.com/luolin101/Visual-SWE-bench.git",
+  "swegym @ git+https://github.com/SWE-Gym/SWE-Bench-Package.git",
+  "commit0",
+  "func_timeout",
+  "sympy",
+  "gdown",
+  "matplotlib",
+  "seaborn",
+  "tabulate",
+  "browsergym==0.13.3",
+  "browsergym-webarena==0.13.3",
+  "browsergym-miniwob==0.13.3",
+  "browsergym-visualwebarena==0.13.3",
+  "boto3-stubs[s3]>=1.37.19",
+  "pyarrow==21.0.0",
+  "datasets",
+  "joblib",
+  "swebench @ git+https://github.com/ryanhoangt/SWE-bench.git@fix-modal-patch-eval",
+]
+
+# Additional test group used in evaluation
+
+testgeneval = [
+  "fuzzywuzzy>=0.18.0",
+  "rouge>=1.0.1",
+  "python-levenshtein>=0.26.1,<0.28.0",
+  "tree-sitter-python>=0.23.6",
+]
