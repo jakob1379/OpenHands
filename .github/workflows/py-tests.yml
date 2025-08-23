@@ -45,8 +45,13 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: 'poetry'
-      - name: Install Python dependencies using Poetry
-        run: uvx poetry install --with dev,test,runtime
+      - name: Install Python dependencies (uv sync preferred)
+        run: |
+          if [ -f uv.lock ]; then
+            uv sync --all-extras --dev
+          else
+            uvx poetry install --with dev,test,runtime
+          fi
       - name: Build Environment
         run: make build
       - name: Run Unit Tests
@@ -74,8 +79,13 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: 'poetry'
-      - name: Install Python dependencies using Poetry
-        run: uvx poetry install --with dev,test,runtime
+      - name: Install Python dependencies (uv sync preferred)
+        run: |
+          if [ -f uv.lock ]; then
+            uv sync --all-extras --dev
+          else
+            uvx poetry install --with dev,test,runtime
+          fi
       - name: Run Windows unit tests
         run: uvx poetry run pytest -svv tests/unit/runtime/utils/test_windows_bash.py
         env:
