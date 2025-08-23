@@ -101,6 +101,66 @@ optional-dependencies.third_party_runtimes = [
 urls.repository = "https://github.com/All-Hands-AI/OpenHands"
 scripts.openhands = "openhands.cli.entry:main"
 
+[dependency-groups]
+# Test group
+test = [
+  "gevent>=24.2.1,<26",
+  "pandas>=0",
+  "pytest>=0",
+  "pytest-asyncio>=0",
+  "pytest-cov>=0",
+  "pytest-forked>=0",
+  "pytest-playwright>=0.7",
+  "pytest-timeout>=2.4",
+  "pytest-xdist>=0",
+  "reportlab>=0",
+]
+
+# Runtime group (dev notebooks, lint)
+runtime = [
+  "flake8>=0",
+  "jupyterlab>=0",
+  "notebook>=0",
+]
+
+# Evaluation group
+
+# Pin pyarrow to avoid conflicts, and include evaluation libs
+
+evaluation = [
+  "boto3-stubs[s3]>=1.37.19",
+  "browsergym==0.13.3",
+  "browsergym-miniwob==0.13.3",
+  "browsergym-visualwebarena==0.13.3",
+  "browsergym-webarena==0.13.3",
+  "commit0>=0",
+  "datasets>=0",
+  "evaluate>=0",
+  "func-timeout>=0",
+  "gdown>=0",
+  "joblib>=0",
+  "matplotlib>=0",
+  "pyarrow==21",
+  "retry>=0",
+  "seaborn>=0",
+  "streamlit>=0",
+  "swebench @ git+https://github.com/ryanhoangt/SWE-bench.git@fix-modal-patch-eval",
+  "swegym @ git+https://github.com/SWE-Gym/SWE-Bench-Package.git",
+  "sympy>=0",
+  "tabulate>=0",
+  "visualswebench @ git+https://github.com/luolin101/Visual-SWE-bench.git",
+  "whatthepatch>=0",
+]
+
+# Additional test group used in evaluation
+
+testgeneval = [
+  "fuzzywuzzy>=0.18",
+  "python-levenshtein>=0.26.1,<0.28",
+  "rouge>=1.0.1",
+  "tree-sitter-python>=0.23.6",
+]
+
 [tool.poetry]
 name = "openhands-ai"
 version = "0.54.0"
@@ -302,67 +362,7 @@ dev-dependencies = [
   "ruff==0.12.5",
   "mypy==1.17.0",
   "pre-commit==4.2.0",
-  "build",
-  "types-setuptools",
+  "build>=0",
+  "types-setuptools>=0",
   "types-markdown>=3.8.0.20250809",
-]
-
-[tool.uv.dependency-groups]
-# Test group
-test = [
-  "pytest",
-  "pytest-cov",
-  "pytest-asyncio",
-  "pytest-forked",
-  "pytest-xdist",
-  "pytest-playwright>=0.7.0",
-  "pytest-timeout>=2.4.0",
-  "pandas",
-  "reportlab",
-  "gevent>=24.2.1,<26.0.0",
-]
-
-# Runtime group (dev notebooks, lint)
-runtime = [
-  "jupyterlab",
-  "notebook",
-  "flake8",
-]
-
-# Evaluation group
-
-# Pin pyarrow to avoid conflicts, and include evaluation libs
-
-evaluation = [
-  "streamlit",
-  "whatthepatch",
-  "retry",
-  "evaluate",
-  "visualswebench @ git+https://github.com/luolin101/Visual-SWE-bench.git",
-  "swegym @ git+https://github.com/SWE-Gym/SWE-Bench-Package.git",
-  "commit0",
-  "func_timeout",
-  "sympy",
-  "gdown",
-  "matplotlib",
-  "seaborn",
-  "tabulate",
-  "browsergym==0.13.3",
-  "browsergym-webarena==0.13.3",
-  "browsergym-miniwob==0.13.3",
-  "browsergym-visualwebarena==0.13.3",
-  "boto3-stubs[s3]>=1.37.19",
-  "pyarrow==21.0.0",
-  "datasets",
-  "joblib",
-  "swebench @ git+https://github.com/ryanhoangt/SWE-bench.git@fix-modal-patch-eval",
-]
-
-# Additional test group used in evaluation
-
-testgeneval = [
-  "fuzzywuzzy>=0.18.0",
-  "rouge>=1.0.1",
-  "python-levenshtein>=0.26.1,<0.28.0",
-  "tree-sitter-python>=0.23.6",
 ]
