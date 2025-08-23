@@ -24,7 +24,7 @@ RUN apt-get update -y \
     && apt-get install -y curl make git build-essential jq gettext \
     && python3 -m pip install poetry --break-system-packages
 
-COPY pyproject.toml poetry.lock ./
+COPY pyproject.toml poetry.lock uv.lock ./
 RUN touch README.md
 RUN export POETRY_CACHE_DIR && poetry install --no-root && rm -rf $POETRY_CACHE_DIR
 
@@ -76,7 +76,7 @@ COPY --chown=openhands:app --chmod=770 --from=backend-builder ${VIRTUAL_ENV} ${V
 COPY --chown=openhands:app --chmod=770 ./microagents ./microagents
 COPY --chown=openhands:app --chmod=770 ./openhands ./openhands
 COPY --chown=openhands:app --chmod=777 ./openhands/runtime/plugins ./openhands/runtime/plugins
-COPY --chown=openhands:app pyproject.toml poetry.lock README.md MANIFEST.in LICENSE ./
+COPY --chown=openhands:app pyproject.toml poetry.lock uv.lock README.md MANIFEST.in LICENSE ./
 
 # This is run as "openhands" user, and will create __pycache__ with openhands:openhands ownership
 RUN python openhands/core/download.py # No-op to download assets
