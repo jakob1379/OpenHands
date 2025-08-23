@@ -127,6 +127,12 @@ Visit [Running OpenHands](https://docs.all-hands.dev/usage/installation) for mor
 
 If you want to modify the OpenHands source code, check out [Development.md](https://github.com/All-Hands-AI/OpenHands/blob/main/Development.md).
 
+Note on local development during migration: If you clone the repo to develop, prefer using `uv` for dependency management and running tests. For example:
+- `uv sync --all-extras --dev` to install
+- `uv run pytest -n auto -svv tests/unit` to run tests
+You can temporarily use `uvx poetry run` equivalents until Poetry is fully removed.
+
+
 Having issues? The [Troubleshooting Guide](https://docs.all-hands.dev/usage/troubleshooting) can help.
 
 ## 📖 Documentation
