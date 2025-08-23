@@ -27,6 +27,8 @@ jobs:
         python-version: ['3.12']
     steps:
       - uses: actions/checkout@v4
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v3
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v3
@@ -61,6 +63,8 @@ jobs:
         python-version: ['3.12']
     steps:
       - uses: actions/checkout@v4
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v3
       - name: Install pipx
         run: pip install pipx
       - name: Install poetry via pipx

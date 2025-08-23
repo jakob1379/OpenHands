@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v3
 
       - name: Install poetry via pipx
         uses: abatilo/actions-poetry@v4
@@ -71,7 +73,7 @@ jobs:
         run: |
           # Fix poetry.lock file if needed
           echo "Fixing poetry.lock file if needed..."
-          poetry lock
+          uvx poetry lock
 
           # Build OpenHands using make build
           echo "Running make build..."
