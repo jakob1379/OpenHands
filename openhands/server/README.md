@@ -20,7 +20,7 @@ npm run build
 cd ..
 ```
 
-Next run `poetry shell` (So you don't have to repeat `poetry run`)
+Next run `uvx poetry shell` (temporary while Poetry remains the source of truth)
 
 ## Start the Server
 
