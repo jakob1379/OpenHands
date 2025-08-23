@@ -152,7 +152,7 @@ uvx poetry run pytest ./tests/unit/test_*.py
 ### 9. Add or update dependency
 
 1. Add your dependency in `pyproject.toml` or use `poetry add xxx`.
-2. Update the poetry.lock file via `poetry lock --no-update`.
+2. Update the poetry.lock file via `uvx poetry lock --no-update`.
 
 ### 10. Use existing Docker image
 
