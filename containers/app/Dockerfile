@@ -22,11 +22,21 @@ ENV POETRY_NO_INTERACTION=1 \
 
 RUN apt-get update -y \
     && apt-get install -y curl make git build-essential jq gettext \
-    && python3 -m pip install poetry --break-system-packages
+    && python3 -m pip install poetry --break-system-packages \
+    && curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR=/usr/local/bin sh
 
 COPY pyproject.toml poetry.lock uv.lock ./
 RUN touch README.md
-RUN export POETRY_CACHE_DIR && poetry install --no-root && rm -rf $POETRY_CACHE_DIR
+# Prefer uv sync (runtime deps) with fallback to Poetry during migration
+RUN set -e; \
+    if [ -f uv.lock ]; then \
+      echo "Using uv.lock (uv sync)"; \
+      uv sync --group runtime || true; \
+    fi; \
+    if [ ! -d .venv ] || [ -z "$(ls -A .venv 2>/dev/null)" ]; then \
+      echo "uv sync missing or failed; falling back to Poetry"; \
+      export POETRY_CACHE_DIR && poetry install --no-root --only main,runtime && rm -rf $POETRY_CACHE_DIR; \
+    fi
 
 FROM base AS openhands-app
 
