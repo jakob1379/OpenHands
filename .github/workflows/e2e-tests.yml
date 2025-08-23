@@ -71,9 +71,14 @@ jobs:
           ENABLE_BROWSER: true
           INSTALL_PLAYWRIGHT: 1
         run: |
-          # Fix poetry.lock file if needed
-          echo "Fixing poetry.lock file if needed..."
-          uvx poetry lock
+          # Prefer uv.lock when present; fallback to Poetry lock
+          if [ -f uv.lock ]; then
+            echo "Using uv.lock (uv sync)"
+            uv sync --all-extras --dev
+          else
+            echo "Fixing poetry.lock file if needed..."
+            uvx poetry lock
+          fi
 
           # Build OpenHands using make build
           echo "Running make build..."
