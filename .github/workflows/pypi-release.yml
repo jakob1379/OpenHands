@@ -24,7 +24,7 @@ jobs:
           virtualenvs-in-project: true
           virtualenvs-path: ~/.virtualenvs
       - name: Install Poetry Dependencies
-        run: poetry install --no-interaction --no-root
+        run: uvx poetry install --no-interaction --no-root
       - name: Build poetry project
         run: ./build.sh
       - name: publish

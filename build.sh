@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -e
 
-poetry build -v
+uvx poetry build -v

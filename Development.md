@@ -146,7 +146,7 @@ To run tests, refer to the following:
 #### Unit tests
 
 ```bash
-poetry run pytest ./tests/unit/test_*.py
+uvx poetry run pytest ./tests/unit/test_*.py
 ```
 
 ### 9. Add or update dependency

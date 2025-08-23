@@ -38,7 +38,7 @@ To run the full end-to-end test suite locally:
 
 ```bash
 cd tests/e2e
-poetry run pytest test_settings.py::test_github_token_configuration test_conversation.py::test_conversation_start -v
+uvx poetry run pytest test_settings.py::test_github_token_configuration test_conversation.py::test_conversation_start -v
 ```
 
 This runs all tests in sequence:
@@ -52,13 +52,13 @@ By default, the tests run against `http://localhost:12000`. You can specify a di
 ```bash
 cd tests/e2e
 # Run against a remote instance
-poetry run pytest test_settings.py::test_github_token_configuration test_conversation.py::test_conversation_start -v --base-url=https://my-openhands-instance.com
+uvx poetry run pytest test_settings.py::test_github_token_configuration test_conversation.py::test_conversation_start -v --base-url=https://my-openhands-instance.com
 
 # Run against a CI instance
-poetry run pytest test_settings.py::test_github_token_configuration test_conversation.py::test_conversation_start -v --base-url=http://ci-instance:8080
+uvx poetry run pytest test_settings.py::test_github_token_configuration test_conversation.py::test_conversation_start -v --base-url=http://ci-instance:8080
 
 # Run against localhost with a different port
-poetry run pytest test_settings.py::test_github_token_configuration test_conversation.py::test_conversation_start -v --base-url=http://localhost:3000
+uvx poetry run pytest test_settings.py::test_github_token_configuration test_conversation.py::test_conversation_start -v --base-url=http://localhost:3000
 ```
 
 ### Running Individual Tests
@@ -68,13 +68,13 @@ You can run individual tests directly:
 ```bash
 cd tests/e2e
 # Run the GitHub token configuration test
-poetry run pytest test_settings.py::test_github_token_configuration -v
+uvx poetry run pytest test_settings.py::test_github_token_configuration -v
 
 # Run the conversation start test
-poetry run pytest test_conversation.py::test_conversation_start -v
+uvx poetry run pytest test_conversation.py::test_conversation_start -v
 
 # Run individual tests with custom base URL
-poetry run pytest test_settings.py::test_github_token_configuration -v --base-url=https://my-instance.com
+uvx poetry run pytest test_settings.py::test_github_token_configuration -v --base-url=https://my-instance.com
 
 ```
 
@@ -84,11 +84,11 @@ To run the tests with a visible browser (non-headless mode) so you can watch the
 
 ```bash
 cd tests/e2e
-poetry run pytest test_settings.py::test_github_token_configuration -v --no-headless --slow-mo=50
-poetry run pytest test_conversation.py::test_conversation_start -v --no-headless --slow-mo=50
+uvx poetry run pytest test_settings.py::test_github_token_configuration -v --no-headless --slow-mo=50
+uvx poetry run pytest test_conversation.py::test_conversation_start -v --no-headless --slow-mo=50
 
 # Combine with custom base URL
-poetry run pytest test_settings.py::test_github_token_configuration -v --no-headless --slow-mo=50 --base-url=https://my-instance.com
+uvx poetry run pytest test_settings.py::test_github_token_configuration -v --no-headless --slow-mo=50 --base-url=https://my-instance.com
 ```
 
 ### GitHub Workflow

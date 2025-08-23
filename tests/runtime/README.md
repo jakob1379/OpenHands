@@ -28,25 +28,25 @@ While unit tests in `tests/unit/` focus on testing individual components in isol
 Run all runtime tests:
 
 ```bash
-poetry run pytest ./tests/runtime
+uvx poetry run pytest ./tests/runtime
 ```
 
 Run specific test file:
 
 ```bash
-poetry run pytest ./tests/runtime/test_bash.py
+uvx poetry run pytest ./tests/runtime/test_bash.py
 ```
 
 Run specific test:
 
 ```bash
-poetry run pytest ./tests/runtime/test_bash.py::test_bash_command_env
+uvx poetry run pytest ./tests/runtime/test_bash.py::test_bash_command_env
 ```
 
 For verbose output, add the `-v` flag (more verbose: `-vv` and `-vvv`):
 
 ```bash
-poetry run pytest -v ./tests/runtime/test_bash.py
+uvx poetry run pytest -v ./tests/runtime/test_bash.py
 ```
 
 ### Environment Variables

@@ -159,7 +159,7 @@ def initialize_runtime(
     obs = runtime.run_action(action)
 
     # Set up the task environment
-    commandf = f'poetry run python run_get_datapoint.py --model-name {model_name} --id {instance["id"]} > branch_name.txt'
+    commandf = f'uvx poetry run python run_get_datapoint.py --model-name {model_name} --id {instance["id"]} > branch_name.txt'
     action = CmdRunAction(command=commandf)
     logger.info(action, extra={'msg_type': 'ACTION'})
     obs = runtime.run_action(action)
@@ -215,7 +215,7 @@ def complete_runtime(
     obs = runtime.run_action(action)
     assert obs.exit_code == 0
 
-    commandf = f'poetry run python run_push_datapoint.py --id {instance["id"]} --model-name {model_name} --user-branch-name {user_branch_name} > single_output.json'
+    commandf = f'uvx poetry run python run_push_datapoint.py --id {instance["id"]} --model-name {model_name} --user-branch-name {user_branch_name} > single_output.json'
     logger.info(f'Running push script: {commandf}')
     action = CmdRunAction(command=commandf)
     logger.info(action, extra={'msg_type': 'ACTION'})

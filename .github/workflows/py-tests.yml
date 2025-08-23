@@ -44,13 +44,13 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: 'poetry'
       - name: Install Python dependencies using Poetry
-        run: poetry install --with dev,test,runtime
+        run: uvx poetry install --with dev,test,runtime
       - name: Build Environment
         run: make build
       - name: Run Unit Tests
-        run: PYTHONPATH=".:$PYTHONPATH" poetry run pytest --forked -n auto -svv ./tests/unit
+        run: PYTHONPATH=".:$PYTHONPATH" uvx poetry run pytest --forked -n auto -svv ./tests/unit
       - name: Run Runtime Tests with CLIRuntime
-        run: PYTHONPATH=".:$PYTHONPATH" TEST_RUNTIME=cli poetry run pytest -svv tests/runtime/test_bash.py
+        run: PYTHONPATH=".:$PYTHONPATH" TEST_RUNTIME=cli uvx poetry run pytest -svv tests/runtime/test_bash.py
 
   # Run specific Windows python tests
   test-on-windows:
@@ -71,14 +71,14 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: 'poetry'
       - name: Install Python dependencies using Poetry
-        run: poetry install --with dev,test,runtime
+        run: uvx poetry install --with dev,test,runtime
       - name: Run Windows unit tests
-        run: poetry run pytest -svv tests/unit/runtime/utils/test_windows_bash.py
+        run: uvx poetry run pytest -svv tests/unit/runtime/utils/test_windows_bash.py
         env:
           PYTHONPATH: ".;$env:PYTHONPATH"
           DEBUG: "1"
       - name: Run Windows runtime tests with LocalRuntime
-        run: $env:TEST_RUNTIME="local"; poetry run pytest -svv tests/runtime/test_bash.py
+        run: $env:TEST_RUNTIME="local"; uvx poetry run pytest -svv tests/runtime/test_bash.py
         env:
           PYTHONPATH: ".;$env:PYTHONPATH"
           TEST_RUNTIME: local
