@@ -15,27 +15,23 @@ FROM base AS backend-builder
 WORKDIR /app
 ENV PYTHONPATH='/app'
 
-ENV POETRY_NO_INTERACTION=1 \
-    POETRY_VIRTUALENVS_IN_PROJECT=1 \
-    POETRY_VIRTUALENVS_CREATE=1 \
-    POETRY_CACHE_DIR=/tmp/poetry_cache
+# Using uv for dependency management; Poetry env no longer required during migration
+# Left intentionally blank for future removal
 
 RUN apt-get update -y \
     && apt-get install -y curl make git build-essential jq gettext \
-    && python3 -m pip install poetry --break-system-packages \
     && curl -LsSf https://astral.sh/uv/install.sh | env UV_INSTALL_DIR=/usr/local/bin sh
 
-COPY pyproject.toml poetry.lock uv.lock ./
+COPY pyproject.toml uv.lock ./
 RUN touch README.md
-# Prefer uv sync (runtime deps) with fallback to Poetry during migration
+# Install runtime deps with uv-only
 RUN set -e; \
     if [ -f uv.lock ]; then \
       echo "Using uv.lock (uv sync)"; \
-      uv sync --group runtime || true; \
-    fi; \
-    if [ ! -d .venv ] || [ -z "$(ls -A .venv 2>/dev/null)" ]; then \
-      echo "uv sync missing or failed; falling back to Poetry"; \
-      export POETRY_CACHE_DIR && poetry install --no-root --only main,runtime && rm -rf $POETRY_CACHE_DIR; \
+      uv sync --group runtime; \
+    else \
+      echo "uv.lock not found; running uv sync"; \
+      uv sync --group runtime; \
     fi
 
 FROM base AS openhands-app
@@ -86,7 +82,7 @@ COPY --chown=openhands:app --chmod=770 --from=backend-builder ${VIRTUAL_ENV} ${V
 COPY --chown=openhands:app --chmod=770 ./microagents ./microagents
 COPY --chown=openhands:app --chmod=770 ./openhands ./openhands
 COPY --chown=openhands:app --chmod=777 ./openhands/runtime/plugins ./openhands/runtime/plugins
-COPY --chown=openhands:app pyproject.toml poetry.lock uv.lock README.md MANIFEST.in LICENSE ./
+COPY --chown=openhands:app pyproject.toml uv.lock README.md MANIFEST.in LICENSE ./
 
 # This is run as "openhands" user, and will create __pycache__ with openhands:openhands ownership
 RUN python openhands/core/download.py # No-op to download assets
